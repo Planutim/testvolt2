@@ -307,9 +307,12 @@ app.use(webpackDevMiddleware(compiler))
 app.use(require('webpack-hot-middleware')(compiler, {
   publicPath: config.output.publicPath
 }))
+app.get('/', (req,res)=>{
+  res.sendFile(path.resolve(__dirname, 'public','index.html'))
+})
 
 app.get('*', (req,res)=>{
-  res.sendFile(path.resolve(__dirname, 'public','index.html'))
+  res.redirect('/')
 })
 
 app.listen(3000, ()=>{
