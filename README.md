@@ -3,6 +3,6 @@
 ```
 npm i 
 npm start
-go to locahost:8000
+go to http://locahost:8000
 
 ```
