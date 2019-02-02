@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom'
 import {hot} from 'react-hot-loader/root'
 import _ from 'lodash'
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
-
-import AppHeader from './AppHeader'
-import MenuList from './MenuList'
 import { Button } from 'react-bootstrap';
+
+import Header from './Header'
+import Body from './Body'
+
 
 class App extends React.Component{
   constructor(props){
@@ -14,16 +15,21 @@ class App extends React.Component{
     //state
     this.state = {
       pageName: 'customers',
-      isLoaded: {
-        customers: false,
-        products: false,
-        invoices: false,
+      invoices: {
+        items: [],
+        isLoaded: false,
+        fields: []
       },
-      items: {
-        customers: [],
-        products: [],
-        invoices: []
-      }
+      products: {
+        items: [],
+        isLoaded: false,
+        fields: ['id','name','price']
+      },
+      customers: {
+        items: [],
+        isLoaded: false,
+        fields: ['id','name','address','phone']
+      },
     }
   }
 
@@ -31,48 +37,51 @@ class App extends React.Component{
     this.setState({
       pageName
     })
-
     this.loadData.bind(this,pageName)()
+    // console.log(pageName, '\n', JSON.stringify(this.state[pageName]))
   }
 
   loadData(pageName){
-    if(!this.state.items[pageName].length){
+    if(!this.state[pageName].isLoaded){
       fetch(`/api/${pageName}`)
         .then(res=>res.json())
         .then(result=>{
           result = result.map(item=>_.omit(item,['createdAt','updatedAt']))
-          console.log(Object.keys(result))
           this.setState({
-            items:{
-              ...this.state.items,
-              [pageName]: result,
-            },
-            isLoaded: {
-              ...this.state.isLoaded,
-              [pageName]: true
+            [pageName]:{
+              ...this.state[pageName],
+              items: result,
+              isLoaded: true
             }
           })
         })
     }
   }
-
-
+  updateTable(pageName){
+    this.setState({
+      [pageName]:{
+        ...this.state[pageName],
+        isLoaded: false
+      }
+    })
+    this.loadData.bind(this,pageName)()
+  }
+ 
   render(){
+    var props = {}
     return (
       <Router>
         <div>
-          <AppHeader
-          changePage={this.changePage.bind(this)}
-          />
-          {/* <MenuList 
-            state={this.state}
-            changePage={this.changePage.bind(this)}
-          /> */}
-          {/* <Button onClick={this.changeAddress.bind(this,false)}>Change</Button>
-          <Button onClick={this.changeAddress.bind(this,true)}>Back</Button> */}
-          <Link to='/users'>Users</Link>
-          <Route path="/users" component={Test} />
-          <Route path="/test" component={Test} />
+          <Header changePage={this.changePage.bind(this)}/>
+          <Route path="/invoices" render={()=><div>WIP</div>} />
+          <Route path="/products" render={()=><Body     {...this.state.products} 
+            pageName={this.state.pageName}
+            updateTable={this.updateTable.bind(this)}
+          />} />
+          <Route path="/customers" render={()=><Body      {...this.state.customers} 
+            pageName={this.state.pageName}
+            updateTable={this.updateTable.bind(this)}
+          />} />
         </div>
       </Router>
     )

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Container, Modal } from 'react-bootstrap'
-import ModalComponent from './lesser/Modal'
-import ListComponent from './lesser/List'
+import ModalComponent from '../lesser/Modal'
+import ListComponent from '../lesser/List'
 
-class Customers extends React.Component{
+class Body extends React.Component{
   constructor(props){
     super(props)
   }
@@ -12,9 +12,12 @@ class Customers extends React.Component{
     return (
       <Container className='Customers'>
         <ModalComponent />
-        <ListComponent />
+        <ListComponent items={this.props.items}/>
+        <div>Customers</div>
       </Container>
-
+      
     )
   }
 }
+
+export default Body
