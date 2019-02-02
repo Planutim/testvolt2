@@ -1,9 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import {hot} from 'react-hot-loader/root'
 import _ from 'lodash'
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
-import { Button } from 'react-bootstrap';
 
 import Header from './Header'
 import Body from './Body'
@@ -69,6 +67,7 @@ class App extends React.Component{
  
   render(){
     var props = {}
+    document.title = this.state.pageName
     return (
       <Router>
         <div>

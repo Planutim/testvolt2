@@ -2,8 +2,7 @@ import React from 'react'
 import { Container, Modal, Button, Row, Col } from 'react-bootstrap'
 import ModalCreateEditDelete from './lesser/ModalCreateDelete'
 import ListComponent from './lesser/List'
-import ModalEdit from './lesser/ModalEdit'
-import ModalDelete from './lesser/ModalDelete';
+
 
 class Body extends React.Component{
   constructor(props){

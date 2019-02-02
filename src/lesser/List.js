@@ -1,6 +1,5 @@
 import React from 'react'
 import { ListGroup, Table, Nav, Button } from 'react-bootstrap'
-import './List.css'
 
 const  ListComponent = ({items,fields,setOptionAndShow,updateEntry, deleteEntry})=>(
   <Table>
