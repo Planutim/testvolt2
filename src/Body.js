@@ -11,7 +11,8 @@ class Body extends React.Component{
     this.state = {
       editDeleteId: null,
       option: null,
-      showModal: false
+      showModal: false,
+      editData: {}
     }
     // // this.updateEntry=this.updateEntry.bind(this)
     // this.deleteEntry=this.deleteEntry.bind(this)
@@ -39,6 +40,8 @@ class Body extends React.Component{
     })
     return false;
   }
+
+
   render(){
     var {isLoaded, items, fields, pageName, updateTable} = this.props
     var list = isLoaded?

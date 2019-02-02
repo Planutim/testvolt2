@@ -14,8 +14,13 @@ class ModalCreate extends React.Component{
     this.handleEditChange=this.handleEditChange.bind(this)
   }
 
-  componentWillUpdate(){
-    if(!this.state.isEditDataLoaded&&this.props.option=='edit'){
+  componentDidUpdate(){
+    // if(!this.state.isEditDataLoaded&&this.props.option=='edit'){
+    //   console.log('hha')
+    //   this.loadEditData()
+    // }
+    console.log(this.state.isEditDataLoaded)
+    if(this.props.option=='edit'&&!this.state.isEditDataLoaded&&this.props.show){
       this.loadEditData()
     }
   }
@@ -33,7 +38,8 @@ class ModalCreate extends React.Component{
   handleClose(){
     if(this.props.option==='edit'){
       this.setState({
-        isEditDataLoaded: false
+        isEditDataLoaded: false,
+        editData: {}
       })
     }
     this.props.handleClose()
@@ -84,11 +90,12 @@ class ModalCreate extends React.Component{
     return false
   }
   loadEditData(){
+
     axios
     .get(`/api/${this.props.pageName}/${this.props.editDeleteId}`)
     .then((result)=>this.setState({editData:result.data, isEditDataLoaded: true}))
     .catch(e=>alert(e.message))
-
+    
   }
   render(){
       var {show, handleClose, onHide, fields, option, editDeleteId} = this.props
@@ -104,6 +111,7 @@ class ModalCreate extends React.Component{
           ?<EditForm 
               fields={fieldsWithoutID} 
               editEntry={this.editEntry.bind(this)} 
+              isEditDataLoaded={this.state.isEditDataLoaded}
               handleEditChange={this.handleEditChange} 
               editData={this.state.editData}
           />
@@ -160,7 +168,7 @@ const CreateForm = ({createEntry, fields,})=>(
 
 
 
-const EditForm = ({editEntry, fields,editData,handleEditChange})=>(
+const EditForm = ({editEntry, fields,editData,handleEditChange,isEditDataLoaded})=>(
   <Form 
     id='myForm' 
     onSubmit={editEntry}
@@ -174,7 +182,7 @@ const EditForm = ({editEntry, fields,editData,handleEditChange})=>(
           type='text' 
           placeholder={`Enter a ${field}`} 
           required
-          value={editData[field] || ""}
+          value={isEditDataLoaded?editData[field]:""}
           onChange={handleEditChange}
         />
       </Form.Group>

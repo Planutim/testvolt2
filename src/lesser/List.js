@@ -11,7 +11,7 @@ const  ListComponent = ({items,fields,setOptionAndShow,updateEntry, deleteEntry}
           //   <th key={i}>{key}</th>
           // ))
           fields.map((field,i)=>(
-            <th key={i}>{field}</th>
+            <th key={i}>{field==='id'?'#':field}</th>
           ))
         }
       </tr>
@@ -25,7 +25,7 @@ const  ListComponent = ({items,fields,setOptionAndShow,updateEntry, deleteEntry}
             ))} */}
             {fields.map((field,j)=>(
               <td key={j}>
-                {item[field]}
+                {field==='id'?i+1:item[field]}
               </td>
             ))}
             {/* <td className='text-right'><Button  variant='outline-secondary' onClick={setOptionAndShow.bind(null, 'edit', item.id)}>Edit</Button></td> */}
